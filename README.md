@@ -25,6 +25,6 @@ The puzzle is solved using BFS Algo and a general AI methodology known as the A*
 
 Game video 
 
-[![CAR RACE YOUTUBE](https://www.youtube.com/watch?v=pkgZwQVF3fw&t=5s/0.jpg)](https://www.youtube.com/watch?v=pkgZwQVF3fw&t=5s)
+[![8 Number Puzzle YOUTUBE](https://img.youtube.com/vi/pkgZwQVF3fw/0.jpg)](https://www.youtube.com/watch?v=pkgZwQVF3fw)
 
 Enjoy Playing !!!
