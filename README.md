@@ -16,7 +16,7 @@ These tiles are having random numbers from 1 to 8 and 1 blank 'space'.
 You need to re-arange them in sorted order from 1 to 8.
 Important thing you can only swap the digit horizontally or vertically with the blank tile.
 
-What this project does?
+### What this project does?
 
 It generates the random puzzle, which user can play.
 And also at any time he can click on the solve button to solve the existing puzzle.
