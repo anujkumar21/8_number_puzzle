@@ -4,6 +4,7 @@
 @date:
 """
 import math
+import random
 from copy import deepcopy
 
 
@@ -27,6 +28,7 @@ class Node:
 
         for i in range(0, size - 1):
             if self.children[i].cost == self.children[i + 1].cost:
+
                 if self.calculate_manhattan(self.children[i].puzzle) < self.calculate_manhattan(
                         self.children[i + 1].puzzle):
                     temp = self.children[i]
@@ -37,14 +39,13 @@ class Node:
         count = 0
         for i in range(0, len(puzzle)):
             for j in range(i, len(puzzle)):
-                if puzzle[i] > puzzle[j]:
+                if puzzle[i] > puzzle[j] and puzzle[i] != 9:
                     count += 1
-        if not puzzle.index(9) % 2:
-            count += 1
 
         return count
 
     def calculate_manhattan(self, puzzle):
+        # print "PUZZLE: %s" % puzzle
         sum = 0
         for i in range(0, len(puzzle)):
             if puzzle[i] != 9:
@@ -87,15 +88,11 @@ class Solution:
         self.open_stack = []
         self.closed_stack = []
         self.sol_stack = []
-        self.all_temporary_puzzles = []
-        self.is_sorted = False
 
     def solution(self):
         root = Node(None, self.puzzle, 0)
 
         self.open_stack.append(root)
-        self.all_temporary_puzzles.append(self.puzzle)
-
         itr = 0
         while len(self.open_stack) != 0:
             last_index = len(self.open_stack) - 1
@@ -113,19 +110,15 @@ class Solution:
 
                 print "Sol path: %d" % len(self.sol_stack)
                 print "Sol path: %s" % self.sol_stack
-                self.is_sorted = True
                 break
             possible_children = self.possible_moves(curr_node.puzzle)
-            # print "\nPC: %s"%possible_children
-            child_lst = []
             for t_child in possible_children:
                 if self.should_be_added(t_child[0]):
-                    child = Node(curr_node, t_child[0], t_child[1] + itr)
+                    child = Node(curr_node, t_child[0], t_child[1])
                     curr_node.children.append(child)
             curr_node.sort_children()
             for child in curr_node.children:
                 self.open_stack.append(child)
-
             itr += 1
 
     def should_be_added(self, puzzle):
@@ -167,6 +160,7 @@ class Solution:
                 possible_indexs.append(si)
 
         temp = []
+
         if puzzle[0] == 1 and puzzle[1] == 2 and puzzle[2] == 3:
             for i in possible_indexs:
                 if i >= 0 and i <= 2:
@@ -186,7 +180,13 @@ class Solution:
         temp = puzzle[i]
         puzzle[i] = puzzle[j]
         puzzle[j] = temp
-        cost = self.calculate_cost(puzzle)
+        if random.randint(1, 3) == 1:
+            cost = self.calculate_cost(puzzle)
+        else:
+            cost = self.get_less(puzzle)
+        if not self.get_less(puzzle) % 2 == 0:
+            print "************ NOT SOLVABLE **************"
+
         return (puzzle, cost)
 
     def calculate_cost(self, puzzle):
@@ -196,8 +196,11 @@ class Solution:
                 count += 1
         return count
 
+    def get_less(self, puzzle):
+        count = 0
+        for i in range(0, len(puzzle)):
+            for j in range(i, len(puzzle)):
+                if puzzle[i] > puzzle[j] and puzzle[i] != 9:
+                    count += 1
 
-if __name__ == '__main__':
-    sol = Solution([5, 4, 1, 9, 8, 3, 7, 2, 6])
-    # sol = Solution([9,1,2,3,4,5,6,7,8])
-    sol.solution()
+        return count

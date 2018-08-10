@@ -4,6 +4,7 @@
 @date: 
 """
 import time
+from copy import deepcopy
 
 import pygame
 
@@ -83,11 +84,12 @@ class Puzzle:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if solve_button.isOver(pos):
                         print "You Clicked Solve button"
-                        solution = Solution(self.puzzle_numbers)
-                        solution.solution()
+                        self.solution = Solution(self.puzzle_numbers)
 
-                        print "PATH: %s" % solution.sol_stack
-                        for i, puzzle in enumerate(reversed(solution.sol_stack)):
+                        path = self.get_sol()
+
+                        print "BOARD PATH: %s" % deepcopy(self.solution.sol_stack)
+                        for i, puzzle in enumerate(reversed(path)):
                             # print puzzle
                             self.screen.fill(self.black)
                             self.highlight.move_count("8 Puzzle Puzzle", 130, 10)
@@ -97,8 +99,7 @@ class Puzzle:
                             pygame.display.update()
                             # self.clock.tick(30)
 
-
-                            time.sleep(int(100 / len(solution.sol_stack)))
+                            time.sleep(0.4)
                         self.you_win = True
 
                 if event.type == pygame.MOUSEMOTION:
@@ -128,6 +129,34 @@ class Puzzle:
 
         pygame.quit()
         quit()
+
+    def get_sol(self):
+        path = []
+        counter = 0
+        while (counter < 30):
+            self.solution.solution()
+
+            print "SP: %d" % len(self.solution.sol_stack)
+            print "SP: %d" % len(path)
+            if len(path) == 0 or len(self.solution.sol_stack) < len(path):
+                print "IN"
+                path = deepcopy(self.solution.sol_stack)
+                print len(path)
+                # moves = pygame.draw.rect(self.screen, self.white, [10, 10, 100, 20], 5)
+                # self.highlight.move_count("Got solution with moves %d, seeking for better"%len(path), 500, 100)
+            if len(self.solution.sol_stack) < 30:
+                path = self.solution.sol_stack
+                break
+            del self.solution.sol_stack[:]
+            del self.solution.open_stack[:]
+            del self.solution.closed_stack[:]
+            del self.solution.sol_stack[:]
+            counter += 1
+            print counter
+
+        print "FINAL PATH: %s" % path
+        print len(path)
+        return path
 
 
 if __name__ == '__main__':
