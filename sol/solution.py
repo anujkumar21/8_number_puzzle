@@ -126,7 +126,6 @@ class Solution:
             for child in curr_node.children:
                 self.open_stack.append(child)
 
-            print itr
             itr += 1
 
     def should_be_added(self, puzzle):
@@ -169,7 +168,6 @@ class Solution:
 
         temp = []
         if puzzle[0] == 1 and puzzle[1] == 2 and puzzle[2] == 3:
-            print "check"
             for i in possible_indexs:
                 if i >= 0 and i <= 2:
                     possible_indexs.remove(i)

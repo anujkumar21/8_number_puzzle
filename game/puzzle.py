@@ -87,18 +87,18 @@ class Puzzle:
                         solution.solution()
 
                         print "PATH: %s" % solution.sol_stack
-                        for i,puzzle in enumerate(reversed(solution.sol_stack)):
+                        for i, puzzle in enumerate(reversed(solution.sol_stack)):
                             # print puzzle
                             self.screen.fill(self.black)
                             self.highlight.move_count("8 Puzzle Puzzle", 130, 10)
                             solve_button.draw((255, 255, 0))
                             self.generate_puzzle.draw_puzzle(puzzle)
-                            self.highlight.move_count("Moves: %s"%str(i))
+                            self.highlight.move_count("Moves: %s" % str(i))
                             pygame.display.update()
-                            #self.clock.tick(30)
+                            # self.clock.tick(30)
 
 
-                            time.sleep(int(100/len(solution.sol_stack)))
+                            time.sleep(int(100 / len(solution.sol_stack)))
                         self.you_win = True
 
                 if event.type == pygame.MOUSEMOTION:
@@ -122,7 +122,6 @@ class Puzzle:
 
                     self.you_win = False
                     self.finish = False
-
 
             pygame.display.update()
             self.clock.tick(60)
